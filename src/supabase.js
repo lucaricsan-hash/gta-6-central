@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const url = (import.meta.env.VITE_SUPABASE_URL || '').trim();
 const anonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || '').trim();
-const validUrl = /^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url);
+const validUrl = url.startsWith('https://') && url.includes('.supabase.co');
 const validKey = anonKey.length > 20 && !/SUA_CHAVE|SEU-PROJETO|placeholder/i.test(anonKey);
 
 export const isSupabaseConfigured = validUrl && validKey;
