@@ -1,56 +1,44 @@
-# GTA 6 Central — versão revisada
+# GTA 6 Central — pacote de evolução v2
 
-Portal independente de fãs de GTA VI, desenvolvido com React, Vite e Supabase. A interface é responsiva e pode ser executada em navegador no computador ou celular.
+Portal independente de fãs de GTA VI, feito com React, Vite e Supabase.
 
-## Recursos incluídos
-- Navegação por Início, Notícias, Comunidade, Garagem, Mapa, Guias e Perfil.
-- Cadastro, login, logout e recuperação de senha pelo Supabase Auth.
-- Criação automática de perfil após cadastro, com limite de nome compatível com o banco.
-- Feed público de publicações, carregado também na página inicial.
-- Criação de publicações autenticadas, curtidas e comentários em formulário (sem janela `prompt`).
-- Estrutura de favoritos e artigos aprovados no banco.
-- Row Level Security (RLS) nas tabelas do Supabase.
-- Avisos de configuração, estados de carregamento e mensagens de erro mais claras.
+## O que esta versão acrescenta
+- Busca geral por personagens, regiões, categorias de veículos e guias.
+- Favoritos persistidos no Supabase para membros autenticados.
+- Ranking de membros com pontuação calculada no banco.
+- Conquistas automáticas por participação.
+- Área administrativa para publicar e excluir notícias verificadas.
+- Comunidade com login, publicações, curtidas e comentários.
+- Interface responsiva e aviso de conteúdo ilustrativo/fan-made.
 
-## O que ainda depende de configuração ou desenvolvimento
-- O projeto não está hospedado e não inclui credenciais Supabase.
-- Notícias automáticas exigem uma fonte/API e uma rotina segura no servidor. O app não inventa notícias.
-- O mapa é ilustrativo, não é o mapa oficial nem uma integração cartográfica navegável.
-- Garagem e guias estão como áreas iniciais; catálogo detalhado precisa de conteúdo verificado.
-- Não há chat em tempo real, seguidores, notificações push, painel administrativo ou publicação em lojas nesta versão.
+## Importante antes de publicar
+Esta é uma versão de evolução funcional, não um catálogo oficial completo. Algumas fichas e categorias são estruturas iniciais; imagens de pessoas e lugares são ilustrativas. Notícias são inseridas pelo administrador com link da fonte. Não há raspagem automática de notícias.
 
-## Configuração do Supabase
+## Atualização segura do Supabase EXISTENTE
+1. Faça backup do projeto Supabase antes de qualquer migração.
+2. Abra o SQL Editor do projeto existente.
+3. Execute `supabase/migration-v2.sql`. Essa migração é complementar e não apaga as tabelas nem publicações existentes.
+4. Crie uma conta pelo site e confirme o e-mail.
+5. No final do arquivo SQL, copie a instrução comentada de inserção em `admin_users`, substitua `SEU_EMAIL_AQUI` pelo e-mail da conta que você acabou de criar e execute-a. Não compartilhe esse e-mail ou credenciais aqui.
+6. A conta passa a ter acesso ao formulário administrativo de notícias.
 
-1. Crie um projeto em [Supabase](https://supabase.com).
-2. Em um projeto novo, abra **SQL Editor** e execute `supabase/schema.sql`.
-3. Em **Project Settings → API**, copie a Project URL e a chave pública `anon`/publishable.
-4. Copie `.env.example` para `.env` e preencha `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`.
-5. No terminal, dentro desta pasta, execute:
+## Variáveis de ambiente
+Mantenha na Vercel as variáveis já configuradas:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY` (chave pública/publishable)
 
-   ```bash
-   npm install
-   npm run dev
-   ```
+Nunca use `service_role`, `sb_secret` ou segredos no frontend. Não envie `.env` ao GitHub.
 
-6. Para compilar a versão de produção:
+## Desenvolvimento local
+```bash
+npm install
+npm run dev
+npm run build
+```
 
-   ```bash
-   npm run build
-   ```
+## Limites e próximos incrementos
+- O mapa geográfico completo, filtros avançados de catálogo, upload próprio de mídia, notificações em tempo real, denúncia/moderação e recuperação de senha precisam de etapas adicionais.
+- Pontos atuais: 10 por publicação e 3 por comentário. As medalhas iniciais são concedidas por primeira publicação, cinco publicações e primeiro comentário.
+- O administrador pode publicar notícias verificadas com URL de fonte. Confirme cada informação antes de publicar.
 
-   Os arquivos finais serão gerados na pasta `dist/`.
-
-### Configurações recomendadas no Supabase
-- Ative confirmação de e-mail e configure corretamente as URLs de redirecionamento.
-- Configure limites de autenticação e monitore tentativas abusivas.
-- Revise as políticas RLS antes de abrir a comunidade ao público.
-- Adicione moderação, denúncia, rate limiting/anti-spam, política de privacidade e termos de uso antes de um lançamento público.
-
-## Segurança
-- Nunca coloque `service_role` ou qualquer segredo administrativo no frontend.
-- A chave pública anon/publishable é usada em conjunto com as políticas RLS; ela não substitui as políticas.
-- Não publique seu arquivo `.env` nem compartilhe credenciais.
-- O SQL foi preparado para ser reaplicável quanto às políticas nomeadas, mas foi pensado como esquema inicial. Se já houver tabelas ou dados, faça backup e revise antes de executar.
-
-## Marca e conteúdo
-GTA 6 Central é um projeto independente de fãs, sem afiliação, patrocínio ou aprovação da Rockstar Games. Marcas e direitos pertencem aos respectivos titulares.
+GTA 6 Central é um projeto independente, sem afiliação à Rockstar Games.
